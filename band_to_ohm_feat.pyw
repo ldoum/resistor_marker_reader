@@ -1,210 +1,193 @@
 """
 Resistor reader algorithm 
 Feature that calculates amount of Ohms based on number of bands and their color schemes 
-Published 250am Nov 13, 2022 Sunday
-
 """
-
-#dictionary 1
-digits = {
-    "black": 0,
-    "brown": 1,
-    "red": 2,
-    "orange": 3,
-    "yellow": 4,
-    "green": 5,
-    "blue": 6,
-    "purple": 7,
-    "gray": 8,
-    "white": 9,
-}
-
-#dictionary 2
-places = {
-    "black": 1,
-    "brown": 10,
-    "red": 100,
-    "orange": 1000,
-    "yellow": 10000,
-    "green": 100000,
-    "blue": 1000000,
-    "purple": 10000000,
-    "gray": 100000000,
-    "white": 1000000000,
-    "gold": 0.1,
-    "silver": 0.01,
-}
-
-#dictionary 3
-percent = {
-    "brown": 1,
-    "red": 2,
-    "orange": 3,
-    "yellow": 4,
-    "green": 0.5,
-    "blue": 0.25,
-    "purple": 0.1,
-    "gray": 0.05,
-    "gold": 5,
-    "silver": 10,
-}
-
-"""
-This function retrieves an integer value from dictionary 1
-using string key
-"""
-
-def get_digit(reply):
-    if reply == "black" or reply == "bl":
-        return digits["black"]
-    elif reply == "brown" or reply == "br":
-        return digits["brown"]
-    elif reply == "red" or reply == "r":
-        return digits["red"]
-    elif reply == "orange" or reply == "o":
-        return digits["orange"]
-    elif reply == "yellow" or reply == "y":
-        return digits["yellow"]
-    elif reply == "green" or reply == "gr":
-        return digits["green"]
-    elif reply == "blue" or reply == "b":
-        return digits["blue"]
-    elif reply == "purple" or reply == "v":
-        return digits["purple"]
-    elif reply == "gray" or reply == "gy":
-        return digits["gray"]
-    elif reply == "white" or reply == "w":
-        return digits["white"]
-    else:
-        print("wrong color")
-        
-"""
-This function retrieves a number value from dictionary 2
-using string key
-"""
+def digit(reply):
+    match reply.lower():       
+        case "black" | "bl":
+            DIGITS = 0
+        case "brown" | "br":
+            DIGITS = 1
+        case "red" | "r":
+            DIGITS = 2
+        case "orange" | "o":
+            DIGITS = 3
+        case "yellow" | "y":
+            DIGITS = 4
+        case "green" | "gr":
+            DIGITS = 5
+        case "blue" | "b":
+            DIGITS = 6
+        case "purple" | "v":
+            DIGITS = 7
+        case "gray" | "gy":
+            DIGITS = 8
+        case "white" | "w":
+            DIGITS = 9
+        case _:
+            print("wrong color")
+            return None
 
 def multiplier(reply):
-    if reply == "black" or reply == "bl":
-        return places["black"]
-    elif reply == "brown" or reply == "br":
-        return places["brown"]
-    elif reply == "red" or reply == "r":
-        return places["red"]
-    elif reply == "orange" or reply == "o":
-        return places["orange"]
-    elif reply == "yellow" or reply == "y":
-        return places["yellow"]
-    elif reply == "green" or reply == "gr":
-        return places["green"]
-    elif reply == "blue" or reply == "b":
-        return places["blue"]
-    elif reply == "purple" or reply == "v":
-        return places["purple"]
-    elif reply == "gray" or reply == "gy":
-        return places["gray"]
-    elif reply == "white" or reply == "w":
-        return places["white"]
-    elif reply == "gold" or reply == "g":
-        return places["gold"]
-    elif reply == "silver" or reply == "si":
-        return places["silver"]
-    else:
-        print("wrong color")
-        
-"""
-This function retrieves a number value from dictionary 3
-using string key
-"""
+    match reply.lower():
+        case "black" | "bl":
+            MULTIPLIER = 1
+        case "brown" | "br":
+            MULTIPLIER = 10
+        case "red" | "r":
+            MULTIPLIER = 100
+        case "orange" | "o":
+            MULTIPLIER = 1000
+        case "yellow" | "y":
+            MULTIPLIER = 10000
+        case "green" | "gr":
+            MULTIPLIER = 100000
+        case "blue" | "b":
+            MULTIPLIER = 1000000
+        case "purple" | "v":
+            MULTIPLIER = 10000000
+        case "gray" | "gy":
+            MULTIPLIER = 100000000
+        case "white" | "w":
+            MULTIPLIER = 1000000000
+        case "gold" | "g":
+            MULTIPLIER = 0.1
+        case "silver" | "si":
+            MULTIPLIER = 0.01  
+        case _:
+            print("wrong color")
+            return None
 
 def tolerance(reply):
-    if reply == "brown" or reply == "br":
-        return places["brown"]
-    elif reply == "red" or reply == "r":
-        return places["red"]
-    elif reply == "orange" or reply == "o":
-        return places["orange"]
-    elif reply == "yellow" or reply == "y":
-        return places["yellow"]
-    elif reply == "green" or reply == "gr":
-        return places["green"]
-    elif reply == "blue" or reply == "b":
-        return places["blue"]
-    elif reply == "purple" or reply == "v":
-        return places["purple"]
-    elif reply == "gray" or reply == "gy":
-        return places["gray"]
-    elif reply == "gold" or reply == "g":
-        return places["gold"]
-    elif reply == "silver" or reply == "si":
-        return places["silver"]
-    else:
-        print("wrong color")
+    match reply.lower():
+        case "brown" | "br":
+            TOLERANCE = 1
+        case "red" | "r":
+            TOLERANCE = 2
+        case "green" | "gr":
+            TOLERANCE = 0.5
+        case "blue" | "b":
+            TOLERANCE = 0.25
+        case "purple" | "v":
+            TOLERANCE = 0.1
+        case "gray" | "gy":
+            TOLERANCE = 0.05
+        case "gold" | "g":
+            TOLERANCE = 5
+        case "silver" | "si":
+            TOLERANCE = 10  
+        case _:
+            print("wrong color")
+            return None
 
 #calculates the resistance value of the 3 band resistor
 def three_band():
-    b1 = get_digit(input("Color of 1st band? ").lower())
-    b2 = get_digit(input("Color of 2nd band? ").lower())
-    zeros = multiplier(input("Color of 3rd band? ").lower())
-    
-    ohm = int(str(b1) + str(b2)) * zeros
-    
-    print(f"{ohm} ohms")
+    for count in range(2):
+        number = digit(input(f"Color of band {count + 1}: ")) #get bands 1 and 2
+        if number == None:
+            return None
+        else:
+            digits += number
+        
+    zeros = multiplier(input("Color of band 3: "))
+    if zeros == None:
+        return None
+
+    #write
+    resistance = digits * zeros
+ 
+    return f"Resistance value is {resistance} ohms"
 
 #calculates the resistance value range of the 4 band resistor
 def four_band():
-    b1 = get_digit(input("Color of 1st band? ").lower())
-    b2 = get_digit(input("Color of 2nd band? ").lower())
-    zeros = multiplier(input("Color of 3rd band? ").lower())
-    level = tolerance(input("Color of 4th band? ").lower())
+    for count in range(2):
+        number = digit(input(f"Color of band {count + 1}: ")) #get bands 1 and 2
+        if number == None:
+            return None
+        else:
+            digits += number
+        
+    zeros = multiplier(input("Color of band 3: "))
+    if zeros == None:
+        return None
     
-    #resistance before tolerance
-    ohm = int(str(b1) + str(b2)) * zeros
-    print(f"Actual resistance value: {ohm} ohms")
+    variety = tolerance(input("Color of band 4: "))
+    if variety == None:
+        return None
+
+    #write
+    resistance = digits * zeros
+    string += f"Resistance value is {resistance} ohms\n"
+
+    tolerance_value = resistance * (variety / 100)
+    string += f"Tolerance value [ +/-{variety}% ] is {tolerance_value} ohms\n"
     
-    #actual tolerance
-    smallohm = ohm * (level / 100)
-    print(f"Tolerance value: {ohm} ohms")
+    ohms_safe = ohm + tolerance_value  #upper limit
+    ohms_unsafe = ohm - tolerance_value  #lower limit
     
-    highohm = ohm + smallohm  #upper limit
-    lowohm = ohm - smallohm    #lower limit
-    
-    print(f"{lowohm} ohms to {highohm} ohms")
+    string += f"The range is {ohms_unsafe} ohms - {ohms_safe} ohms\n"
+    string += f"Recommended number of ohms is {resistance} ohms to {ohms_safe}"
+
+    return string
 
 #calculates the resistance value range of the 5 band resistor
 def five_band():
-    b1 = get_digit(input("Color of 1st band? ").lower())
-    b2 = get_digit(input("Color of 2nd band? ").lower())
-    b3 = get_digit(input("Color of 3rd band? ").lower())
-    zeros = multiplier(input("Color of 4th band? ").lower())
-    level = tolerance(input("Color of 5th band? ").lower())
-    
-    #resistance before tolerance
-    ohm = int(str(b1) + str(b2) + str(b3))  * zeros
-    print(f"Actual resistance value: {ohm} ohms")
-    
-    #actual tolerance
-    smallohm = ohm * (level / 100)
-    print(f"Tolerance value: {ohm} ohms")
-    
-    highohm = ohm + smallohm  #upper limit
-    lowohm = ohm - smallohm    #lower limit
-    
-    print(f"{lowohm} ohms to {highohm} ohms")
-
-#driver
-while True:
-    bands = int(input("How many bands? "))
-    if bands == 3:
-        three_band()
-        break
-    elif bands == 4:
-        four_band()
-        break
-    elif bands == 5:
-        five_band()
-        break
-    elif bands < 3:
-        print("Your number is too small")
-    elif bands > 5:
-        print("Your number is too large")
+    for count in range(3):
+        number = digit(input(f"Color of band {count + 1}: ")) #get bands 1, 2, and 3
+        if number == None:
+            return None
+        else:
+            digits += number
         
+    zeros = multiplier(input("Color of band 4: "))
+    if zeros == None:
+        return None
+    
+    variety = tolerance(input("Color of band 5: "))
+    if variety == None:
+        return None
+
+    #write
+    resistance = digits * zeros
+    string += f"Resistance value is {resistance} ohms\n"
+
+    tolerance_value = resistance * (variety / 100)
+    string += f"Tolerance value [ +/-{variety}% ] is {tolerance_value} ohms\n"
+    
+    ohms_safe = ohm + tolerance_value  #upper limit
+    ohms_unsafe = ohm - tolerance_value  #lower limit
+    
+    string += f"The range is {ohms_unsafe} ohms - {ohms_safe} ohms\n"
+    string += f"Recommended number of ohms is {resistance} ohms to {ohms_safe}"
+
+    return string
+
+def main():
+    
+    while True:
+        bands = int(input("How many bands? "))
+
+        match bands:
+            case 3:
+                if three_band() == None:
+                    print("Invalid color scheme for 3 band resistor.")
+                else:
+                    three_band()
+                    break
+            case 4:
+                if four_band() == None:
+                    print("Invalid color scheme for 4 band resistor.")
+                else:
+                    four_band()
+                    break
+            case 5:
+                if five_band() == None:
+                    print("Invalid color scheme for 5 band resistor.")
+                else:
+                    five_band()
+                    break
+            case _: 
+                print("3-5 bands only")
+   
+if __name__ == "__main__":
+    main()
