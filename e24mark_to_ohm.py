@@ -1,28 +1,21 @@
 """
 
-1211am 11/21/22
+1211am 11/21/22 Start
 E24 surface mount resistor reader feature
-
+1236am Finished
 
 
 """
 
 
 def chip_resistor_e24_code(marking):
-    digits = mark1[0] + mark1[1]
-    
-    if digits <= 0 or digits > 99:
-        return None
-
+    digits = marking[0] + marking[1]
+   
     multiplier = ""
-    for zeros in range(mark1[2]):
-        multiplier += zeros
+    for zeros in range(int(marking[2])):
+        multiplier += str(zeros)
 
-    resistance = digits * int(multiplier)
-
-    return resistance
-
-
+    return digits + multiplier
 
 def main():
 
